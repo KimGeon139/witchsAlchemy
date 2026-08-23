@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>마녀의 연금술</title>
+    <link rel="stylesheet" href="./style/style.css">
+    <link rel="stylesheet" href="./style/desk.css">
+    <script src="./script/main.js" defer></script>
+
+</head>
+
+<body>
+    <div class="stage">
+
+
+        <div class="left"></div>
+        <div class="right">
+            <div class="ingredient-shelf">
+
+                <div class="ingredient" data-id="herb" data-description="회복 물약에 사용되는 신비한 허브" tabindex="0"
+                    aria-label="허브">
+                    <img class="ingredient-img" src="./assets/ingredient/herb.webp" alt="허브">
+
+                </div>
+                <div class="ingredient" data-id="mushroom" data-description="독성 물약에 사용되는 독버섯" tabindex="0"
+                    aria-label="독버섯">
+                    <img class="ingredient-img" src="./assets/ingredient/poisonousMushroom.webp" alt="독버섯">
+
+                </div>
+                <div class="ingredient" data-id="water" data-description="독성 물약에 사용되는 독버섯" tabindex="0" aria-label="물">
+                    <img class="ingredient-img" src="./assets/ingredient/water.webp" alt="물">
+
+                </div>
+                <div class="ingredient" data-id="fairyDust" data-description="독성 물약에 사용되는 독버섯" tabindex="0"
+                    aria-label="요정의 가루">
+                    <img class="ingredient-img" src="./assets/ingredient/fairyDust.webp" alt="요정의 가루">
+
+                </div>
+                <div class="ingredient" data-id="mandrake" data-description="독성 물약에 사용되는 독버섯" tabindex="0"
+                    aria-label="맨드레이크">
+                    <img class="ingredient-img" src="./assets/ingredient/mandrake.webp" alt="맨드레이크">
+
+                </div>
+                <div class="ingredient" data-id="dragonsClaw" data-description="독성 물약에 사용되는 독버섯" tabindex="0"
+                    aria-label="드래곤의 발톱">
+                    <img class="ingredient-img" src="./assets/ingredient/dragonsClaw.webp" alt="드래곤의 발톱">
+
+                </div>
+                <div class="ingredient" data-id="slimeCore" data-description="독성 물약에 사용되는 독버섯" tabindex="0"
+                    aria-label="슬라임핵">
+                    <img class="ingredient-img" src="./assets/ingredient/slimeCore.webp" alt="슬라임핵">
+
+                </div>
+                <div class="ingredient" data-id="silverFlower" data-description="독성 물약에 사용되는 독버섯" tabindex="0"
+                    aria-label="은방울꽃">
+                    <img class="ingredient-img" src="./assets/ingredient/silverFlower.webp" alt="은방울꽃">
+
+                </div>
+                <div class="ingredient" data-id="coralStarfish" data-description="독성 물약에 사용되는 독버섯" tabindex="0"
+                    aria-label="산호 불가사리">
+                    <img class="ingredient-img" src="./assets/ingredient/coralStarfish.webp" alt="산호 불가사리">
+
+                </div>
+                <div class="ingredient" data-id="starDust" data-description="독성 물약에 사용되는 독버섯" tabindex="0"
+                    aria-label="별동별 조각">
+                    <img class="ingredient-img" src="./assets/ingredient/starDust.webp" alt="별동별 조각">
+
+                </div>
+            </div>
+
+        </div>
+        <!-- <div class="jar">
+            <img src="./assets/jar.webp" alt="jar">
+
+
+        </div> -->
+
+        <div class="jar-wrap">
+            <div class="jar-zone" id="jarZone">
+                <!-- <div class="drop-hint-text">여기에 놓아 담기</div> -->
+                <img src="./assets/jar.webp" alt="가마솥" draggable="false">
+
+                <div class="jar-interior" id="jarInterior"></div>
+                <div class="ripple" id="ripple"></div>
+
+                <div class="tray-wrap">
+                    <div class="tray" id="tray"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
