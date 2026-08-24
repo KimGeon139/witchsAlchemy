@@ -1,0 +1,20 @@
+.book {
+    position: absolute;
+    width: 70px;
+    height: 80px;
+    left:-25%;
+    top: 10%;
+    transition: transform 0.2s linear;
+    transform-origin: center center;
+    cursor: pointer;
+  }
+.book:hover {
+  transform: scale(1.03);
+}
+
+  .book-page {
+    display: none;
+  }
+  .book-page.active {
+  display: block;
+}

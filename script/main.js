@@ -1,14 +1,19 @@
+
 // =========================
 // 재료 요소 및 전역 변수
 // =========================
 
 const ingredients = document.querySelectorAll('.ingredient');
 
-const shelfWrap =
-    document.querySelector('.ingredient-shelf');
+const ingredientDesc =
+    document.getElementById('ingredientDesc');
+const ingredientNote =
+    document.getElementById('ingredientNote');
 
-const tooltip =
-    document.getElementById('ingredientTooltip');
+const DEFAULT_DESC_TEXT =
+    '...';
+
+let selectedIngredientId = null; // 클릭으로 '고정 선택'된 재료 (없으면 null)
 
 let draggedIngredient = null;
 let dragGhost = null;
@@ -18,103 +23,386 @@ let activePointerId = null;
 const MAX_INGREDIENTS = 3;
 
 
+
 // =========================
 // 레시피 데이터베이스
-// =========================
 
-const RECIPES = {
+const RECIPES = {};
 
-    "herb-water-mandrake": {
-        name: "강화 체력 포션",
-        desc: "모든 상처를 즉시 회복시키는 신비한 붉은 물약입니다.",
-        icons: "🌿💧🔥"
-    },
+// 재료 id 배열 → 정렬된 키로 변환 (순서 실수 방지용, 이 함수로만 키를 만든다)
+function makeRecipeKey(...ids) {
+    return ids.slice().sort().join('-');
+}
 
-    "bone-mushroom-stardust": {
-        name: "환상 환각제",
-        desc: "밤하늘의 환영을 보게 만드는 보랏빛 물약입니다.",
-        icons: "🍄🦴✨"
-    },
+function registerRecipe(...recipes) {
+    for (let i = 0; i < recipes.length; i += 2) {
+        const ids = recipes[i];
+        const data = recipes[i + 1];
 
-    "herb-herb-herb": {
-        name: "순수 허브 엑기스",
-        desc: "진한 진록색의 농축 허브 액체입니다.",
-        icons: "🌿🌿🌿"
+        const key = makeRecipeKey(...ids);
+        RECIPES[key] = data;
     }
+}
 
-};
+//물약
+registerRecipe(
+    ["water", "herb", "mandrake"],
+    //물 + 허브 + 발광버섯
+    {
+        name: "체력 회복 포션",
+        desc: "모든 상처를 즉시 회복시키는 신비한 붉은 물약입니다.",
+        image: "./assets/ingredient/water.webp"
+    },
 
+    ["water", "dragonsClaw", "cactusflower"],
+    //물 + 드래곤의 발톱 + 선인장의 꽃
+    {
+        name: "힘의 포션",
+        desc: "힘이 증가해 가하는 공격이 강해집니다.",
+        image: "./assets/ingredient/starDust.webp"
+    },
+
+
+    ["water", "spiritCore", "moonlightFlower"],
+    //물 + 정령의 핵 + 달빛을 머금은 꽃
+    {
+        name: "마력 증폭의 포션",
+        desc: "일시적으로 마력 회복 속도와 마법의 위력이 대폭 상승합니다.",
+        image: "./assets/ingredient/starDust.webp"
+    },
+
+
+    ["water", "phoenixFeather", "blessingOfTheGoddess"],
+    //물 + 불사조의 깃털 + 여신의 비호
+    {
+        name: "신성한 불사 포션",
+        desc: "아무리 큰 상처에도 죽지 않으며 모든 피해를 회복시킵니다.",
+        image: "./assets/ingredient/starDust.webp"
+    },
+
+
+    ["water", "poisonousMushroom", "silkyScales"],
+    //물 + 독버섯 + 비단뱀의 비늘
+    {
+        name: "맹독성 부식 포션",
+        desc: "마시거나 장비에 바르면 강력한 중독 및 산성 효과를 부여합니다.",
+        image: "./assets/ingredient/starDust.webp"
+    },
+
+
+    ["water", "youngSpiritsPoop", "silverFlower"],
+    // 물 + 어린 정령의 똥 + 은구슬 꽃
+    {
+        name: "환수의 영양 포션",
+        desc: "마법 생물이나 환수에게 먹이면 소환수의 성장이 빨라집니다.",
+        image: "./assets/ingredient/starDust.webp"
+    },
+
+
+    ["water", "slimeCore", "starDust"],
+    //물 + 슬라임의 핵 + 별똥별 조각
+    {
+        name: "피부활력증가 포션",
+        desc: "마시면 피부에 생기가 생기고 건강해 보입니다.",
+        image: "./assets/ingredient/starDust.webp"
+    },
+
+
+    ["water", "blessingOfTheGoddess", "runeFragment"],
+    //물 + 여신의 비호 + 룬 조각
+    {
+        name: "신성한 정화수",
+        desc: "모든 저주와 저주받은 장비를 즉시 정화합니다.",
+        image: "./assets/ingredient/water.webp"
+    },
+
+
+    ["water", "mandrake", "poisonousMushroom"],
+    //물 + 만드라고라 + 독버섯
+    {
+        name: "환각의 마법 포션",
+        desc: "마신 적에게 심한 환각을 일으켜 서로 공격하게 만드는 혼란 상태에 빠뜨립니다.",
+        image: "./assets/ingredient/starDust.webp"
+    },
+
+
+    ["water", "coralStarfish", "brightMushroom"],
+    //물 + 산호 불가사리 + 발광버섯
+    {
+        name: "바다의 축복 포션",
+        desc: "마시면 물속에서 숨을 쉴 수 있고 이동 속도가 빨라집니다.",
+        image: "./assets/ingredient/starDust.webp"
+    },
+
+
+    ["water", "sunriseFlower", "fairyDust"],
+    //물 + 해맞이 꽃 + 요정의 가루
+    {
+        name: "광명의 각성 포션",
+        desc: "마시면 시야가 매우 밝아져 어두운 곳에서도 낮과 같이 볼 수 있습니다.",
+        image: "./assets/ingredient/starDust.webp"
+    },
+
+
+    ["water", "dragonsClaw", "phoenixFeather"],
+    //물 + 드래곤의 발톱 + 불사조의 깃털
+    {
+        name: "화염 내성 포션",
+        desc: "일시적으로 화염으로부터 보호받습니다.",
+        image: "./assets/ingredient/starDust.webp"
+    },
+
+
+    ["water", "runeFragment", "slimeCore"],
+    // 물 + 룬 조각 + 슬라임의 핵
+    {
+        name: "충격파 방출 포션",
+        desc: " 바닥에 던지면 넓은 범위로 강력한 마력 충격파를 방출하여 주변 적을 밀쳐냅니다.",
+        image: "./assets/ingredient/starDust.webp"
+    },
+
+
+    ["water", "mandrake", "moonlightFlower"],
+    //물 + 만드라고라 + 달빛을 머금은 꽃
+    {
+        name: "환각성 음파 포션",
+        desc: "마신 자의 목소리를 기이한 음파로 바꾸어 주변 적들에게 공포를 줍니다.",
+        image: "./assets/ingredient/starDust.webp"
+    },
+
+
+    ["water", "silkyScales", "manaOre"],
+    //물 + 비단뱀의 비늘 + 마력 광석
+    {
+        name: "수호의 갑옷 포션",
+        desc: "피부가 단단해지며 물리 방어력이 크게 상승합니다.",
+        image: "./assets/ingredient/starDust.webp"
+    },
+
+);
+
+
+
+
+
+
+
+
+
+
+
+
+//약  
+registerRecipe(
+    ["fairyDust", "silverFlower", "sunriseFlower"],
+    // 요정의 가루 + 은구슬 꽃 + 해맞이 꽃
+    {
+        name: "정신 진정 연고",
+        desc: "상처 부위에 바르면 정신적 공포와 수면 장애를 해소해 줍니다.",
+        image: "./assets/ingredient/herb.webp"
+    },
+    ["mandrake", "slimeCore", "manaOre"],
+    // 만드라고라 + 슬라임의 핵 + 마력 광석
+    {
+        name: "신체 강화 알약",
+        desc: "단단하게 뭉쳐 복용하면 일시적으로 근력과 방어력이 대폭 상승합니다.",
+        image: "./assets/ingredient/herb.webp"
+    },
+    ["coralStarfish", "runeFragment", "silkyScales"],
+    // 산호 불가사리 + 룬 조각 + 비단뱀의 비늘
+    {
+        name: "해독 가루 환",
+        desc: "체내에 침투한 치명적인 독을 즉시 흡수하여 배출시킵니다.",
+        image: "./assets/ingredient/herb.webp"
+    },
+    ["starDust", "spiritCore", "manaOre"],
+    // 별똥별 조각 + 정령의 핵 + 마력 광석
+    {
+        name: "마법 감응 분말",
+        desc: "마력에 대한 감응력이 증가하고 마법의 위력이 강해집니다.",
+        image: "./assets/ingredient/herb.webp"
+    },
+    ["youngSpiritsPoop", "herb", "sunriseFlower"],
+    // 어린 정령의 똥 + 허브 + 해맞이 꽃
+    {
+        name: "초기 성장의 비약",
+        desc: "식물이나 작은 정령에게 뿌리면 빠른 성장을 촉진하는 유기농 영양제입니다.",
+        image: "./assets/ingredient/herb.webp"
+    },
+    ["phoenixFeather", "manaOre", "blessingOfTheGoddess"],
+    //  불사조의 깃털 + 마력 광석 + 여신의 비호
+    {
+        name: "불사조의 알약",
+        desc: "굳혀 만든 결정 알약으로, 복용 시 천천히 힘이 차오릅니다.",
+        image: "./assets/ingredient/herb.webp"
+    },
+    ["poisonousMushroom", "silkyScales", "dragonsClaw"],
+    // 독버섯 + 비단뱀의 비늘 + 드래곤의 발톱
+    {
+        name: "마비 독 가루",
+        desc: "무기 표면에 바르거나 던지면 적을 일시적으로 완전 마비시킵니다.",
+        image: "./assets/ingredient/herb.webp"
+    },
+    ["fairyDust", "moonlightFlower", "cactusflower"],
+    // 요정의 가루 + 달빛을 머금은 꽃 + 선인장의 꽃
+    {
+        name: "마력 흡수 연고",
+        desc: "피부에 바르면 주변 마력으로 회복을 촉진합니다.",
+        image: "./assets/ingredient/herb.webp"
+    },
+    ["herb", "herb", "herb"],
+    // 발광버섯 + 별똥별 조각 + 룬 조각
+    {
+        name: "야간 시야 분말",
+        desc: "눈 주위에 바르면 칠흑 같은 어둠 속에서도 완벽한 시야를 확보합니다.",
+        image: "./assets/ingredient/herb.webp"
+    },
+    ["slimeCore", "mandrake", "herb"],
+    //  슬라임의 핵 + 만드라고라 + 허브
+    {
+        name: "생명 각성 젤리",
+        desc: "쫀득하게 응축한 고체 약으로, 섭취 시 최대 체력의 한계를 일시적으로 늘려줍니다.",
+        image: "./assets/ingredient/herb.webp"
+    },
+    ["starDust", "coralStarfish", "herb"],
+    // 별똥별 조각 + 산호 불가사리 + 허브
+    {
+        name: "별빛 응급 연고",
+        desc: "상처에 바르면 부위가 별빛으로 치유되며 부상을 즉시 지혈합니다.",
+        image: "./assets/ingredient/herb.webp"
+    },
+    ["youngSpiritsPoop", "blessingOfTheGoddess", "cactusflower"],
+    // 어린 정령의 똥 + 여신의 비호 + 선인장의 꽃
+    {
+        name: "성스러운 자양환",
+        desc: "먹기 거북하지만 복용 시 허기짐이 즉시 채워지고 힘이 소폭 증가합니다.",
+        image: "./assets/ingredient/herb.webp"
+    },
+    ["poisonousMushroom", "brightMushroom", "spiritCore"],
+    // 독버섯 + 발광버섯 + 정령의 핵
+    {
+        name: "신경 마비 가루",
+        desc: "적에게 뿌리면 적의 마력 회복을 방해하고 움직임을 느리게 만듭니다.",
+        image: "./assets/ingredient/herb.webp"
+    },
+    ["silverFlower", "spiritCore", "fairyDust"],
+    // 은구슬 꽃 + 정령의 핵 + 요정의 가루
+    {
+        name: "영혼 포착 젤리",
+        desc: "굳혀 만든 젤리 형태의 약으로, 보이지 않는 영체를 볼수 있게 됩니다.",
+        image: "./assets/ingredient/herb.webp"
+    },
+    ["cactusflower", "coralStarfish", "slimeCore"],
+    // 선인장의 꽃 + 산호 불가사리 + 슬라임의 핵
+    {
+        name: "열기 차단 크림",
+        desc: "몸 전체에 바르면 화염 및 용암 지대에서 받는 환경 피해를 일정 시간 무효화합니다.",
+        image: "./assets/ingredient/herb.webp"
+    },
+);
 
 const UNKNOWN_RECIPE = {
-
     name: "알 수 없는 잿더미",
     desc: "재료의 비율이 맞지 않아 검은 연기와 함께 실패했습니다.",
-    icons: "💨💥"
-
+    image: "./assets/ingredient/slimeCore.webp"
 };
-
 
 // =========================
 // 재료 이벤트
+
 // =========================
+// 쪽지 텍스트 갱신 (플립 애니메이션)
+// =========================
+
+function updateNoteText(text) {
+
+    if (!ingredientDesc) return;
+
+    // 이미 같은 내용이면 애니메이션 생략
+    if (ingredientDesc.textContent === text) return;
+
+    if (ingredientNote) {
+        ingredientNote.classList.remove('flip');
+        void ingredientNote.offsetWidth; // 리플로우 강제 (연속 재생 위해)
+        ingredientNote.classList.add('flip');
+    }
+
+    // 애니메이션 절반 시점(옆면이 안 보일 때)에 텍스트 교체
+    setTimeout(() => {
+        ingredientDesc.innerHTML = text;
+    }, 180);
+
+    if (ingredientNote) {
+        ingredientNote.addEventListener('animationend', () => {
+            ingredientNote.classList.remove('flip');
+        }, { once: true });
+    }
+
+}
 
 ingredients.forEach((ingredient) => {
 
-
     // -------------------------
-    // 툴팁
+    // 설명 쪽지 갱신 (호버)
     // -------------------------
 
     ingredient.addEventListener('mouseenter', () => {
 
-        // 툴팁 HTML이 없으면 그냥 넘어감
-        if (!tooltip || !shelfWrap) return;
+        if (isDragging) return;
 
-        const description =
-            ingredient.dataset.description;
+        const name = ingredient.getAttribute('aria-label');
+        const description = ingredient.dataset.description;
 
-        if (!description || isDragging) return;
+        if (!description) return;
 
-
-        tooltip.textContent = description;
-
-        tooltip.classList.add('show');
-
-
-        const ingredientRect =
-            ingredient.getBoundingClientRect();
-
-        const wrapRect =
-            shelfWrap.getBoundingClientRect();
-
-
-        const x =
-            ingredientRect.left
-            - wrapRect.left
-            - tooltip.offsetWidth
-            - 8;
-
-
-        const y =
-            ingredientRect.top
-            - wrapRect.top
-            + (ingredientRect.height / 2)
-            - (tooltip.offsetHeight / 2);
-
-
-        tooltip.style.left = `${x}px`;
-        tooltip.style.top = `${y}px`;
-
+        updateNoteText(
+            `<strong>${name}</strong><br>${description}`
+        );
     });
-
 
     ingredient.addEventListener('mouseleave', () => {
 
-        if (!tooltip) return;
+        // 선택된 재료가 있으면 그 설명으로 되돌리고, 없으면 기본 문구로
+        if (selectedIngredientId) {
 
-        tooltip.classList.remove('show');
+            const selected =
+                document.querySelector(
+                    `.ingredient[data-id="${selectedIngredientId}"]`
+                );
+
+            updateNoteText(selected?.dataset.description || DEFAULT_DESC_TEXT);
+
+        } else {
+
+            updateNoteText(DEFAULT_DESC_TEXT);
+
+        }
 
     });
+
+    // -------------------------
+    // 설명 쪽지 갱신 (클릭 = 선택 고정)
+    // -------------------------
+
+
+    ingredient.addEventListener('click', () => {
+
+        selectedIngredientId = ingredient.dataset.id;
+
+        updateNoteText(ingredient.dataset.description || DEFAULT_DESC_TEXT);
+
+    });
+
+    // 키보드 접근성 (tabindex로 포커스 가능하니 Enter/Space도 클릭과 동일 동작)
+    ingredient.addEventListener('keydown', (e) => {
+
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            ingredient.click();
+        }
+
+    });
+
 
 
     // -------------------------
@@ -131,111 +419,56 @@ ingredients.forEach((ingredient) => {
             return;
         }
 
-
         e.preventDefault();
 
-
         draggedIngredient = ingredient;
-
         isDragging = true;
-
         activePointerId = e.pointerId;
 
-
-        // 툴팁 제거
-        if (tooltip) {
-            tooltip.classList.remove('show');
-        }
-
-
-        // 포인터 캡처
         ingredient.setPointerCapture(e.pointerId);
 
-
-        // 이미지 가져오기
         const image =
             ingredient.querySelector('.ingredient-img');
 
-
         if (!image) {
-
             cancelDrag();
-
             return;
         }
 
-
-        // 드래그용 이미지 복제
-        dragGhost =
-            image.cloneNode(true);
-
-
-        dragGhost.className =
-            'drag-ghost';
-
-
+        dragGhost = image.cloneNode(true);
+        dragGhost.className = 'drag-ghost';
         dragGhost.draggable = false;
 
+        document.body.appendChild(dragGhost);
 
-        document.body.appendChild(
-            dragGhost
-        );
-
-
-        moveGhost(
-            e.clientX,
-            e.clientY
-        );
+        moveGhost(e.clientX, e.clientY);
 
     });
-
 
     // -------------------------
     // 드래그 중
     // -------------------------
 
     ingredient.addEventListener('pointermove', (e) => {
-
-        if (
-            !isDragging ||
-            !dragGhost
-        ) {
-            return;
-        }
-
-
-        moveGhost(
-            e.clientX,
-            e.clientY
-        );
-
+        if (!isDragging || !dragGhost) return;
+        moveGhost(e.clientX, e.clientY);
     });
-
 
     // -------------------------
     // 드롭
     // -------------------------
 
     ingredient.addEventListener('pointerup', (e) => {
-
-        if (!isDragging) {
-            return;
-        }
-
-
+        if (!isDragging) return;
         finishDrag(e);
-
     });
-
 
     // -------------------------
     // 드래그 취소
     // -------------------------
 
     ingredient.addEventListener('pointercancel', () => {
-
         cancelDrag();
-
     });
 
 });
@@ -540,108 +773,64 @@ function clearJar() {
 
 function startBrewing() {
 
-
     const items =
-        document.querySelectorAll(
-            '#jarInterior .ingredient-item'
-        );
+        document.querySelectorAll('#jarInterior .ingredient-item');
 
-
-    // 재료 ID 가져오기
-    // 알파벳 순서로 정렬해서 레시피 검색
     const currentIngredients =
         Array.from(items)
-
-            .map(
-                item =>
-                    item.dataset.id
-            )
-
+            .map(item => item.dataset.id)
             .sort()
-
             .join('-');
 
-
-    // 레시피 검색
     const result =
-        RECIPES[currentIngredients]
-        || UNKNOWN_RECIPE;
+        RECIPES[currentIngredients] || UNKNOWN_RECIPE;
 
-
-    // 결과 이름
     const resultName =
-        document.getElementById(
-            'resultName'
-        );
-
+        document.getElementById('resultName');
 
     if (resultName) {
-
-        resultName.textContent =
-            result.name;
-
+        resultName.textContent = result.name;
     }
 
-
-    // 결과 설명
     const resultDesc =
-        document.getElementById(
-            'resultDesc'
-        );
-
+        document.getElementById('resultDesc');
 
     if (resultDesc) {
-
-        resultDesc.textContent =
-            result.desc;
-
+        resultDesc.textContent = result.desc;
     }
 
+    const resultImage =
+        document.getElementById('resultImage');
 
-    // 결과 아이콘
-    const resultIcons =
-        document.getElementById(
-            'resultIcons'
-        );
-
-
-    if (resultIcons) {
-
-        resultIcons.textContent =
-            result.icons;
-
+    if (resultImage) {
+        resultImage.src = result.image;
+        resultImage.alt = result.name;
     }
 
-
-    // 모달
     const overlay =
-        document.getElementById(
-            'overlay'
-        );
-
+        document.getElementById('overlay');
 
     const craftBtnWrap =
-        document.getElementById(
-            'craftBtnWrap'
-        );
-
+        document.getElementById('craftBtnWrap');
 
     if (craftBtnWrap) {
-
-        craftBtnWrap.classList.remove(
-            'show'
-        );
-
+        craftBtnWrap.classList.remove('show');
     }
-
 
     if (overlay) {
-
-        overlay.classList.add(
-            'show'
-        );
-
+        overlay.classList.add('show');
     }
+
+    // 2초 뒤 자동으로 카드 닫고 항아리 초기화
+    setTimeout(() => {
+
+        if (overlay) {
+            overlay.classList.remove('show');
+        }
+
+        clearJar();
+
+    }, 2000);
 
 }
 
@@ -781,3 +970,11 @@ function showToast(message) {
         );
 
 }
+
+// 도감 펼치고 접기
+const book = document.querySelector(".book");
+const bookPage = document.querySelector(".book-page");
+
+book.addEventListener("click", () => {
+    bookPage.classList.toggle("active");
+});

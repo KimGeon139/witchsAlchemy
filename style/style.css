@@ -1,5 +1,6 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  
 
   html, body {
     width: 100%;
@@ -47,6 +48,7 @@
     justify-content: center;
   }
 
+
   /* 앞으로 추가할 이미지 (img 태그 방식) */
   .jar-wrap {
     position: absolute;
@@ -86,8 +88,6 @@
     left: 31.1%;
     transform: translateX(-50%);
     z-index: 3;
-    user-select: none;
-    -webkit-user-drag: none;
 }
 
 .jar-zone {
@@ -108,7 +108,7 @@
 
     z-index: 4;
 
-    pointer-events: none;
+
 }
 
 /* 항아리 안에 들어간 재료 */

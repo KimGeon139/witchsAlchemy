@@ -1,0 +1,48 @@
+.ingredient-note-wrap {
+  position: absolute;
+  top: 63%;
+  left: 18%;
+  width: 70%;
+  z-index: 5;
+  perspective: 800px;      /* 3D 깊이감을 위한 원근감 */
+}
+
+.ingredient-note {
+  position: relative;
+  width: 100%;
+  transform-style: preserve-3d;
+  transform-origin: center center;
+}
+
+.ingredient-note-bg {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+  backface-visibility: hidden;
+}
+
+.ingredient-note-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 82%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  text-align: center;
+  font-size: 18px;
+  color: #3a2a15;
+  backface-visibility: hidden;
+}
+
+/* 텍스트가 바뀔 때 붙는 클래스 — 종이가 팔랑 뒤집히는 효과 */
+.ingredient-note.flip {
+  animation: note-flip 0.6s ease-out;
+}
+
+@keyframes note-flip {
+  0%   { transform: rotatex(-8deg) rotate(1deg); }
+  100% { transform: rotatex(0deg) rotate(0deg); }
+}

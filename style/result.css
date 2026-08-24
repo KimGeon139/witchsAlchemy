@@ -1,0 +1,188 @@
+/* ===== 오버레이 & 결과 카드 ===== */
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background: rgba(0, 0, 0, 0);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.35s ease;
+}
+
+.overlay.show {
+  background: rgba(0, 0, 0, 0.65);
+  pointer-events: auto;
+}
+
+/* ===== 결과 카드 (이미지 기반) ===== */
+.result-card {
+  position: relative;
+  width: 400px;
+  aspect-ratio: 344 / 477;   /* 이미지 로드 전에도 정확한 세로 길이를 미리 확보 */
+  max-width: 90vw;
+  max-height: 85vh;          /* 세로로 긴 카드라 화면 높이도 같이 제한 */
+  transform: scale(0.85);
+  opacity: 0;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+.overlay.show .result-card {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.result-card-frame {
+  display: block;
+  width: 100%;
+  height: 100%;              /* auto 대신 100% — 부모가 이미 정확한 비율을 갖고 있으므로 */
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+/* 아이템 이미지가 들어갈 원형 자리 — 카드 이미지 안에서
+   그 위치가 몇 %쯤인지 보면서 top/left 값을 맞춰주세요 */
+.result-medallion {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  width: 78%;                /* 카드 폭 기준 */
+  aspect-ratio: 1 / 1;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.result-medallion img {
+  width: 90%;
+  height:90%;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.result-name {
+  position: absolute;
+  top: 82%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 82%;
+  text-align: center;
+  font-size: 16px;
+  color: #d4a537;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+}
+
+.result-desc {
+  position: absolute;
+  top: 89%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 78%;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #e8d9b0;
+  max-height: 18%;
+  overflow: hidden;
+}
+
+.again-btn {
+  position: absolute;
+  bottom: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 7px 16px;
+  background: #d4a537;
+  border: none;
+  border-radius: 6px;
+  color: #2a1a12;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.again-btn:hover { background: #e8bd52; }
+
+/* 조합 / 비우기 버튼 */
+.craft-btn-wrap {
+  position: absolute;
+  left: 2%;              /* 가마솥(31.1%)보다 왼쪽 — 화면 보면서 조절 */
+  top: 50%;
+  transform: translateY(-50%) translateX(-10px);  /* 세로 중앙 정렬 + 살짝 숨김 위치 */
+  z-index: 6;
+  display: flex;
+  flex-direction: column;   /* 가로 → 세로 배치 */
+  gap: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.craft-btn-wrap.show {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+  pointer-events: auto;
+}
+.craft-btn, .reset-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.craft-btn { background: #d4a537; color: #2a1a12; }
+.reset-btn { background: #432A0F; color: #e8d9b0; }
+
+.craft-btn, .reset-btn {
+  width: 110px;   /* 세로 배치니까 폭을 좀 줄이는 게 안정적 */
+  height: 42px;
+
+}
+
+.icon-btn {
+  width: 140px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: transform 0.1s ease, filter 0.1s ease;
+}
+
+.icon-btn img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+  image-rendering: pixelated;
+}
+
+.icon-btn:hover {
+  filter: brightness(1.12);
+}
+.icon-btn:active {
+  transform: scale(0.94);
+}
+
+/* 토스트 */
+.toast {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: #e8d9b0;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 30;
+}
+.toast.show { opacity: 1; }
+

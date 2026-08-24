@@ -6,6 +6,9 @@
     <title>마녀의 연금술</title>
     <link rel="stylesheet" href="./style/style.css">
     <link rel="stylesheet" href="./style/desk.css">
+    <link rel="stylesheet" href="./style/result.css">
+    <link rel="stylesheet" href="./style/memo.css">
+    <link rel="stylesheet" href="./style/book.css">
     <script src="./script/main.js" defer></script>
 
 </head>
@@ -16,66 +19,131 @@
 
         <div class="left"></div>
         <div class="right">
+            <div class="ingredient-note-wrap">
+                <div class="ingredient-note" id="ingredientNote">
+                    <img class="ingredient-note-bg" src="./assets/memo.webp" alt="" draggable="false">
+                    <p class="ingredient-note-text" id="ingredientDesc">...</p>
+                </div>
+            </div>
+
+            <!-- 도감 버튼과 페이지 -->
+            <div class="book">
+                <img class="book-img" src="./assets/book.webp" alt="도감" draggable="false">
+            </div>
+            <div class="book-page" draggable="false"></div>
+            <!-- 재료 선반 -->
             <div class="ingredient-shelf">
 
-                <div class="ingredient" data-id="herb" data-description="회복 물약에 사용되는 신비한 허브" tabindex="0"
+                <div class="ingredient" data-id="herb" data-description="상처를 치유하고 회복력을 상승시키는 흔한 약초" tabindex="0"
                     aria-label="허브">
                     <img class="ingredient-img" src="./assets/ingredient/herb.webp" alt="허브">
 
                 </div>
-                <div class="ingredient" data-id="mushroom" data-description="독성 물약에 사용되는 독버섯" tabindex="0"
+                <div class="ingredient" data-id="poisonousMushroom" data-description="강한 독성을 품고 있는 위험한 버섯" tabindex="0"
                     aria-label="독버섯">
                     <img class="ingredient-img" src="./assets/ingredient/poisonousMushroom.webp" alt="독버섯">
 
                 </div>
-                <div class="ingredient" data-id="water" data-description="독성 물약에 사용되는 독버섯" tabindex="0" aria-label="물">
+                <div class="ingredient" data-id="water" data-description="모든 물약의 근원이 되는 가장 기본적인 재료" tabindex="0"
+                    aria-label="물">
                     <img class="ingredient-img" src="./assets/ingredient/water.webp" alt="물">
 
                 </div>
-                <div class="ingredient" data-id="fairyDust" data-description="독성 물약에 사용되는 독버섯" tabindex="0"
+                <div class="ingredient" data-id="fairyDust" data-description="요정에게서 떨어져 나온 신비한 가루" tabindex="0"
                     aria-label="요정의 가루">
                     <img class="ingredient-img" src="./assets/ingredient/fairyDust.webp" alt="요정의 가루">
 
                 </div>
-                <div class="ingredient" data-id="mandrake" data-description="독성 물약에 사용되는 독버섯" tabindex="0"
+                <div class="ingredient" data-id="mandrake" data-description="강한 마력으로 정신에 영향을 주는 이상한 식물" tabindex="0"
                     aria-label="맨드레이크">
                     <img class="ingredient-img" src="./assets/ingredient/mandrake.webp" alt="맨드레이크">
 
                 </div>
-                <div class="ingredient" data-id="dragonsClaw" data-description="독성 물약에 사용되는 독버섯" tabindex="0"
+                <div class="ingredient" data-id="dragonsClaw" data-description="드래곤의 힘이 깃든 단단한 발톱" tabindex="0"
                     aria-label="드래곤의 발톱">
                     <img class="ingredient-img" src="./assets/ingredient/dragonsClaw.webp" alt="드래곤의 발톱">
 
                 </div>
-                <div class="ingredient" data-id="slimeCore" data-description="독성 물약에 사용되는 독버섯" tabindex="0"
+                <div class="ingredient" data-id="slimeCore" data-description="슬라임의 중심에 존재하는 마력의 핵" tabindex="0"
                     aria-label="슬라임핵">
                     <img class="ingredient-img" src="./assets/ingredient/slimeCore.webp" alt="슬라임핵">
 
                 </div>
-                <div class="ingredient" data-id="silverFlower" data-description="독성 물약에 사용되는 독버섯" tabindex="0"
+                <div class="ingredient" data-id="silverFlower" data-description="은빛으로 반짝이는 마력이 담긴 꽃" tabindex="0"
                     aria-label="은방울꽃">
                     <img class="ingredient-img" src="./assets/ingredient/silverFlower.webp" alt="은방울꽃">
 
                 </div>
-                <div class="ingredient" data-id="coralStarfish" data-description="독성 물약에 사용되는 독버섯" tabindex="0"
+                <div class="ingredient" data-id="coralStarfish" data-description="바다의 마력을 품은 희귀한 생물" tabindex="0"
                     aria-label="산호 불가사리">
                     <img class="ingredient-img" src="./assets/ingredient/coralStarfish.webp" alt="산호 불가사리">
 
                 </div>
-                <div class="ingredient" data-id="starDust" data-description="독성 물약에 사용되는 독버섯" tabindex="0"
-                    aria-label="별동별 조각">
-                    <img class="ingredient-img" src="./assets/ingredient/starDust.webp" alt="별동별 조각">
+                <div class="ingredient" data-id="starDust" data-description="밤하늘에서 떨어진 빛나는 별의 파편" tabindex="0"
+                    aria-label="별똥별 조각">
+                    <img class="ingredient-img" src="./assets/ingredient/starDust.webp" alt="별똥별 조각">
+
+                </div>
+                <div class="ingredient" data-id="brightMushroom" data-description="어둠 속에서 스스로 빛과 마력을 발산하는 버섯"
+                    tabindex="0" aria-label="발광 버섯">
+                    <img class="ingredient-img" src="./assets/ingredient/brightMushroom.webp" alt="발광 버섯">
+
+                </div>
+                <div class="ingredient" data-id="cactusflower" data-description="척박한 환경에서 피어나 강한 생명력을 지닌 꽃" tabindex="0"
+                    aria-label="선인장 꽃">
+                    <img class="ingredient-img" src="./assets/ingredient/cactusflower.webp" alt="선인장 꽃">
+
+                </div>
+                <div class="ingredient" data-id="sunriseFlower" data-description="햇빛을 받을수록 강한 생명력을 머금는 밝은 색의 꽃"
+                    tabindex="0" aria-label="해맞이 꽃">
+                    <img class="ingredient-img" src="./assets/ingredient/sunriseFlower.webp" alt=" 해맞이 꽃">
+
+                </div>
+                <div class="ingredient" data-id="manaOre" data-description="지하 깊은 곳에서 마력이 오랜 시간 응축된 광석" tabindex="0"
+                    aria-label="마력 광석">
+                    <img class="ingredient-img" src="./assets/ingredient/manaOre.webp" alt=" 마력 광석 ">
+
+                </div>
+                <div class="ingredient" data-id="spiritCore" data-description="정령의 힘이 응축되어 순수한 마력을 품은 핵" tabindex="0"
+                    aria-label="정령의 핵">
+                    <img class="ingredient-img" src="./assets/ingredient/spiritCore.webp" alt=" 정령의 핵">
+
+                </div>
+                <div class="ingredient" data-id="phoenixFeather" data-description="불에 타지 않으며 재생의 힘을 품은 깃털" tabindex="0"
+                    aria-label="불사조의 깃털">
+                    <img class="ingredient-img" src="./assets/ingredient/phoenixFeather.webp" alt=" 불사조의 깃털">
+
+                </div>
+                <div class="ingredient" data-id="moonlightFlower" data-description="달빛을 흡수해 은은한 마력을 축적하는 밤의 꽃"
+                    tabindex="0" aria-label="달빛을 머금은 꽃">
+                    <img class="ingredient-img" src="./assets/ingredient/moonlightFlower.webp" alt=" 달빛을 머금은 꽃">
+
+                </div>
+                <div class="ingredient" data-id="silkyScales" data-description="질기고 유연하며 독에 대한 저항력을 지닌 희귀한 비늘"
+                    tabindex="0" aria-label="비단뱀의 비늘">
+                    <img class="ingredient-img" src="./assets/ingredient/silkyScales.webp" alt=" 비단뱀의 비늘">
+
+                </div>
+                <div class="ingredient" data-id="runeFragment" data-description="고대의 마법진에서 떨어져 나온 조각" tabindex="0"
+                    aria-label="룬 조각">
+                    <img class="ingredient-img" src="./assets/ingredient/runeFragment.webp" alt=" 룬 조각">
+
+                </div>
+                <div class="ingredient" data-id="blessingOfTheGoddess" data-description="여신의 축복이 깃든 신성한 물질" tabindex="0"
+                    aria-label="여신의 비호">
+                    <img class="ingredient-img" src="./assets/ingredient/blessingOfTheGoddess.webp" alt=" 여신의 비호">
+
+                </div>
+                <div class="ingredient" data-id="youngSpiritsPoop" data-description="어린 정령의 마력이 섞여 놀라운 힘과 영양을 지닌 배설물"
+                    tabindex="0" aria-label="어린 정령의 똥">
+                    <img class="ingredient-img" src="./assets/ingredient/youngSpiritsPoop.webp" alt=" 어린 정령의 똥">
 
                 </div>
             </div>
 
         </div>
-        <!-- <div class="jar">
-            <img src="./assets/jar.webp" alt="jar">
 
-
-        </div> -->
-
+        <!-- 재료 설명 쪽지 -->
         <div class="jar-wrap">
             <div class="jar-zone" id="jarZone">
                 <!-- <div class="drop-hint-text">여기에 놓아 담기</div> -->
@@ -89,7 +157,37 @@
                 </div>
             </div>
         </div>
+        <!-- 조합 버튼 -->
+        <div class="craft-btn-wrap" id="craftBtnWrap">
+            <button id="craftBtn" class="icon-btn" aria-label="조합하기">
+                <img src="./assets/mixBtn.webp" alt="조합하기" draggable="false">
+            </button>
+            <button id="resetBtn" class="icon-btn" aria-label="비우기">
+                <img src="./assets/clearBtn.webp" alt="비우기" draggable="false">
+            </button>
+        </div>
+        <!-- <div class="craft-btn-wrap" id="craftBtnWrap">
+            <button id="craftBtn" class="craft-btn">조합하기</button>
+            <button id="resetBtn" class="reset-btn">비우기</button>
+        </div> -->
 
+        <!-- 경고 토스트 -->
+        <div class="toast" id="toastMessage"></div>
+
+        <!-- 결과 카드 오버레이 -->
+        <!-- 결과 카드 오버레이 -->
+        <div class="overlay" id="overlay">
+            <div class="result-card">
+                <img class="result-card-frame" src="./assets/resultCard.webp" alt="결과 카드" draggable="false">
+
+                <div class="result-medallion">
+                    <img id="resultImage" src="" alt="">
+                </div>
+
+                <h2 id="resultName" class="result-name"></h2>
+                <p id="resultDesc" class="result-desc"></p>
+            </div>
+        </div>
     </div>
 </body>
 
