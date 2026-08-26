@@ -186,3 +186,16 @@
 }
 .toast.show { opacity: 1; }
 
+.result-medallion img {
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  pointer-events: none;   /* 클릭/드래그 이벤트 자체를 안 받도록 */
+}
+
+.result-card-frame {
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  pointer-events: none;
+}

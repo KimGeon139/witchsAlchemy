@@ -51,7 +51,7 @@ registerRecipe(
     {
         name: "체력 회복 포션",
         desc: "모든 상처를 즉시 회복시키는 신비한 붉은 물약입니다.",
-        image: "./assets/ingredient/water.webp"
+        image: "./assets/potion/healing.webp"
     },
 
     ["water", "dragonsClaw", "cactusflower"],
@@ -59,7 +59,7 @@ registerRecipe(
     {
         name: "힘의 포션",
         desc: "힘이 증가해 가하는 공격이 강해집니다.",
-        image: "./assets/ingredient/starDust.webp"
+        image: "./assets/potion/strength.webp"
     },
 
 
@@ -68,7 +68,7 @@ registerRecipe(
     {
         name: "마력 증폭의 포션",
         desc: "일시적으로 마력 회복 속도와 마법의 위력이 대폭 상승합니다.",
-        image: "./assets/ingredient/starDust.webp"
+        image: "./assets/potion/mana.webp"
     },
 
 
@@ -77,7 +77,7 @@ registerRecipe(
     {
         name: "신성한 불사 포션",
         desc: "아무리 큰 상처에도 죽지 않으며 모든 피해를 회복시킵니다.",
-        image: "./assets/ingredient/starDust.webp"
+        image: "./assets/potion/undead.webp"
     },
 
 

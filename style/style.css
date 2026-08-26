@@ -133,3 +133,33 @@
 
     image-rendering: pixelated;
 }
+
+.result-card,
+.result-card * {
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.ingredient {
+  touch-action: none;   /* 이 요소 위에서는 브라우저 기본 스크롤/줌 제스처 끄기 */
+}
+
+.drag-ghost {
+  touch-action: none;
+}
+
+.jar-zone,
+.jar-interior {
+  touch-action: none;   /* 드롭 영역도 마찬가지 */
+}
+
+.ingredient,
+.ingredient-img,
+.drag-ghost {
+  -webkit-touch-callout: none;   /* iOS 길게 누르기 메뉴 차단 */
+  -webkit-user-select: none;
+  user-select: none;
+}
