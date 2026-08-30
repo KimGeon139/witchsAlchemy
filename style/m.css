@@ -1,0 +1,12 @@
+.page-silhouette {
+    position: absolute;
+    inset: 0;
+    width: 30%;
+    height: 30%;
+    object-fit: contain;
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
+    left: 58.5%;
+    top: 21.8%;
+}

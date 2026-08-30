@@ -785,6 +785,9 @@ function startBrewing() {
     const result =
         RECIPES[currentIngredients] || UNKNOWN_RECIPE;
 
+    if (RECIPES[currentIngredients]) {
+        recordDiscovery(currentIngredients);
+    }
     const resultName =
         document.getElementById('resultName');
 
@@ -833,6 +836,10 @@ function startBrewing() {
     }, 2000);
 
 }
+// =========================
+// 도감 기록 (발견한 레시피 갱신)
+// =========================
+
 
 
 // =========================
@@ -842,6 +849,8 @@ function startBrewing() {
 document.addEventListener(
     'DOMContentLoaded',
     () => {
+
+        applyDiscoveredRecipes(); // ✅ 추가
 
 
         const resetBtn =
@@ -971,10 +980,124 @@ function showToast(message) {
 
 }
 
-// 도감 펼치고 접기
+// 도감 펼치고 접기 + 페이지 넘기기
 const book = document.querySelector(".book");
-const bookPage = document.querySelector(".book-page");
+const bookOverlay = document.getElementById("bookOverlay");
+const bookPages = document.querySelectorAll(".book-page");
+const bookPrevBtn = document.getElementById("bookPrevBtn");
+const bookNextBtn = document.getElementById("bookNextBtn");
+
+let currentPage = 0;
+const totalPages = bookPages.length;
+
+function showPage(index) {
+    bookPages.forEach((page) => {
+        page.classList.toggle("active", Number(page.dataset.page) === index);
+    });
+
+    // 첫/마지막 페이지에서 화살표 비활성화 (원치 않으면 이 두 줄 지워도 됨)
+    if (bookPrevBtn) bookPrevBtn.disabled = index === 0;
+    if (bookNextBtn) bookNextBtn.disabled = index === totalPages - 1;
+}
 
 book.addEventListener("click", () => {
-    bookPage.classList.toggle("active");
+    currentPage = 0;
+    showPage(currentPage);
+    bookOverlay.classList.add("show");
 });
+
+bookOverlay.addEventListener("click", (e) => {
+    if (e.target === bookOverlay) {
+        bookOverlay.classList.remove("show");
+    }
+});
+
+if (bookPrevBtn) {
+    bookPrevBtn.addEventListener("click", () => {
+        if (currentPage > 0) {
+            currentPage--;
+            showPage(currentPage);
+        }
+    });
+}
+
+if (bookNextBtn) {
+    bookNextBtn.addEventListener("click", () => {
+        if (currentPage < totalPages - 1) {
+            currentPage++;
+            showPage(currentPage);
+        }
+    });
+}
+
+// =========================
+// 도감 발견 기록 저장/불러오기 (localStorage)
+// =========================
+
+const STORAGE_KEY = 'witchAlchemy_discoveredRecipes';
+
+function loadDiscoveredRecipes() {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        return saved ? JSON.parse(saved) : [];
+    } catch (err) {
+        return [];
+    }
+}
+
+function saveDiscoveredRecipes(list) {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    } catch (err) {
+        // 저장 실패해도 무시
+    }
+}
+
+function applyDiscoveredRecipes() {
+    const discoveredList = loadDiscoveredRecipes();
+
+    discoveredList.forEach((recipeKey) => {
+        const page =
+            document.querySelector(`.book-page[data-recipe="${recipeKey}"]`);
+
+        if (page) {
+            page.classList.add('discovered');
+        }
+    });
+}
+
+function recordDiscovery(recipeKey) {
+
+    const page =
+        document.querySelector(`.book-page[data-recipe="${recipeKey}"]`);
+
+    if (!page) return;
+
+    page.classList.add('discovered');
+    const discoveredList = loadDiscoveredRecipes();
+    if (!discoveredList.includes(recipeKey)) {
+        discoveredList.push(recipeKey);
+        saveDiscoveredRecipes(discoveredList);
+    }
+}
+
+// =========================
+// 도감 초기화 (개발/테스트용)
+// =========================
+
+const bookResetBtn = document.getElementById('bookResetBtn');
+
+if (bookResetBtn) {
+    bookResetBtn.addEventListener('click', () => {
+
+        const confirmed = confirm('도감 발견 기록을 모두 초기화할까요?');
+
+        if (!confirmed) return;
+
+        localStorage.removeItem(STORAGE_KEY);
+
+        document.querySelectorAll('.book-page.discovered').forEach((page) => {
+            page.classList.remove('discovered');
+        });
+    });
+}

@@ -1,20 +1,206 @@
+/* ===== 도감 버튼 ===== */
 .book {
-    position: absolute;
-    width: 70px;
-    height: 80px;
-    left:-25%;
-    top: 10%;
-    transition: transform 0.2s linear;
-    transform-origin: center center;
-    cursor: pointer;
-  }
+  position: absolute;
+  width: 70px;
+  height: 80px;
+  left: -25%;
+  top: 10%;
+  transition: transform 0.2s linear;
+  transform-origin: center center;
+  cursor: pointer;
+}
+
 .book:hover {
   transform: scale(1.03);
 }
 
-  .book-page {
-    display: none;
-  }
-  .book-page.active {
+/* ===== 도감 오버레이 (결과 카드와 동일한 패턴) ===== */
+.book-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 25;
+  background: rgba(0, 0, 0, 0);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.35s ease;
+}
+
+.book-overlay.show {
+  background: rgba(0, 0, 0, 0.65);
+  pointer-events: auto;
+}
+
+.book-inner {
+  position: relative;
+  width: 1000px;
+  /* 도감 이미지 크기에 맞게 조절 */
+  max-width: 90vw;
+  max-height: 85vh;
+  transform: scale(0.85);
+  opacity: 0;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+.book-overlay.show .book-inner {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* 공통 프레임 (모든 페이지가 공유) */
+.book-inner-img {
   display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+/* ===== 페이지 영역 ===== */
+.book-pages {
+  position: absolute;
+  inset: 8%;
+  width: 100%;
+  height: auto;
+  /* 프레임 안쪽 여백 - 프레임 이미지 보면서 조절 */
+  overflow: hidden;
+}
+
+.book-page {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  width: 100%;
+
+}
+
+.book-page.active {
+  opacity: 1;
+  pointer-events: auto;
+  width:
+    /* transform: translate(-50%, -50%); */
+}
+
+/* ===== 아이콘 (실루엣 / 발견 아이템 공용 위치) ===== */
+.page-icon {
+  position: absolute;
+  width: 35%;
+  height: 35%;
+  left: 48.1%;
+  top: 16%;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.page-silhouette {
+  filter: brightness(0) opacity(0.3);
+}
+
+/* 발견 시 페이지 전용 완성 배경 (프레임 위에 얹힘) */
+.page-discovered-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+  /* display: none; */
+  justify-content: center;
+}
+
+/* 발견 시 아이콘 이미지 - 기본은 숨김 */
+.page-discovered-icon {
+  display: none;
+}
+
+/* ===== 발견 상태 전환 ===== */
+.book-page.discovered .page-silhouette {
+  display: none;
+}
+
+.book-page.discovered .page-discovered-bg {
+  display: block;
+  animation: pageDiscover 0.4s ease;
+}
+
+.book-page.discovered .page-discovered-icon {
+  display: block;
+  animation: pageDiscover 0.4s ease;
+}
+
+@keyframes pageDiscover {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ===== 화살표 버튼 ===== */
+.book-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: transform 0.1s ease, filter 0.1s ease;
+}
+
+.book-arrow-prev {
+  left: -55px;
+  /* book-inner 바깥 왼쪽 - 위치 조절 */
+}
+
+.book-arrow-next {
+  right: -55px;
+  /* book-inner 바깥 오른쪽 - 위치 조절 */
+}
+
+.book-arrow:hover {
+  filter: brightness(1.12);
+}
+
+.book-arrow:active {
+  transform: translateY(-50%) scale(0.92);
+}
+
+.book-arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+  pointer-events: none;
+}
+
+.book-reset-btn {
+  position: absolute;
+  top: -40px;
+  /* book-inner 위쪽 바깥 - 위치는 화면 보면서 조절 */
+  right: 0;
+  padding: 8px 14px;
+  background: rgba(0, 0, 0, 0.5);
+  color: #e8d9b0;
+  border: 1px solid #d4a537;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.book-reset-btn:hover {
+  background: rgba(0, 0, 0, 0.7);
 }

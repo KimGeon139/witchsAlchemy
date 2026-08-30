@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> -->
     <title>마녀의 연금술</title>
     <link rel="stylesheet" href="./style/style.css">
     <link rel="stylesheet" href="./style/desk.css">
@@ -27,11 +27,13 @@
                 </div>
             </div>
 
-            <!-- 도감 버튼과 페이지 -->
+            <!-- 도감 버튼 -->
             <div class="book">
                 <img class="book-img" src="./assets/book.webp" alt="도감" draggable="false">
             </div>
-            <div class="book-page" draggable="false"></div>
+
+
+
             <!-- 재료 선반 -->
             <div class="ingredient-shelf">
 
@@ -143,52 +145,103 @@
             </div>
 
         </div>
+        <!-- 도감 내부 오버레이 -->
+        <div class="book-overlay" id="bookOverlay">
+            <div class="book-inner" id="bookInner">
+                <!-- <img class="book-inner-img" src="./assets/book/heal.webp" alt="도감 내부" draggable="false"> -->
+                <!-- 도감 내용(재료 목록 등)은 이 안에 나중에 추가하면 됩니다 -->
 
-        <!-- 재료 설명 쪽지 -->
-        <div class="jar-wrap">
-            <div class="jar-zone" id="jarZone">
-                <!-- <div class="drop-hint-text">여기에 놓아 담기</div> -->
-                <img src="./assets/jar.webp" alt="가마솥" draggable="false">
+                <!-- 미 발견 이미지 -->
+                <img class="book-inner-img" src="./assets/book/bookPageFrame.webp" alt="도감 내부" draggable="false">
 
-                <div class="jar-interior" id="jarInterior"></div>
-                <div class="ripple" id="ripple"></div>
+                <!-- 페이지마다 바뀌는 콘텐츠 -->
+                <div class="book-pages" id="bookPages">
 
-                <div class="tray-wrap">
-                    <div class="tray" id="tray"></div>
+                    <div class="book-page active" data-page="0" data-recipe="herb-mandrake-water">
+                        <img class=" page-icon page-silhouette" src="./assets/potion/silhouette/healing-s.webp"
+                            alt="미발견">
+                        <!-- 발견 시 함께 나타나는 두 이미지 -->
+                        <img class="page-discovered-bg" src="./assets/book/heal.webp" alt="">
+                        <img class="page-icon page-discovered-icon" src="./assets/potion/healing.webp" alt="체력 회복 포션">
+
+                    </div>
+
+                    <!-- 물약 -->
+                    <div class="book-page active" data-page="1" data-recipe="cactusflower-dragonsClaw-water">
+                        <img class=" page-icon page-silhouette" src="./assets/potion/silhouette/strenght-s.webp"
+                            alt="미발견">
+                        <!-- 발견 시 함께 나타나는 두 이미지 -->
+                        <img class="page-discovered-bg" src="./assets/book/strength.webp" alt="">
+                        <img class="page-icon page-discovered-icon" src="./assets/potion/strength.webp" alt="힘의 포션">
+
+                    </div>
+
+                    <!-- 약 -->
+
+                    <!-- 레시피 개수만큼 반복 -->
                 </div>
+
+                <!-- 화살표 버튼 -->
+                <button class=" book-arrow book-arrow-prev" id="bookPrevBtn" aria-label="이전 페이지">
+                    <img src="./assets/book/left-btn.webp" alt="이전" draggable="false">
+                </button>
+                <button class="book-arrow book-arrow-next" id="bookNextBtn" aria-label="다음 페이지">
+                    <img src="./assets/book/right-btn.webp" alt="다음" draggable="false">
+                </button>
+
+                <!--  도감 초기화 버튼 -->
+                <button class="book-reset-btn" id="bookResetBtn" aria-label="도감 초기화">
+                    초기화
+                </button>
+
             </div>
         </div>
-        <!-- 조합 버튼 -->
-        <div class="craft-btn-wrap" id="craftBtnWrap">
-            <button id="craftBtn" class="icon-btn" aria-label="조합하기">
-                <img src="./assets/mixBtn.webp" alt="조합하기" draggable="false">
-            </button>
-            <button id="resetBtn" class="icon-btn" aria-label="비우기">
-                <img src="./assets/clearBtn.webp" alt="비우기" draggable="false">
-            </button>
+    </div>
+    <!-- 재료 설명 쪽지 -->
+    <div class="jar-wrap">
+        <div class="jar-zone" id="jarZone">
+            <!-- <div class="drop-hint-text">여기에 놓아 담기</div> -->
+            <img src="./assets/jar.webp" alt="가마솥" draggable="false">
+
+            <div class="jar-interior" id="jarInterior"></div>
+            <div class="ripple" id="ripple"></div>
+
+            <div class="tray-wrap">
+                <div class="tray" id="tray"></div>
+            </div>
         </div>
-        <!-- <div class="craft-btn-wrap" id="craftBtnWrap">
+    </div>
+    <!-- 조합 버튼 -->
+    <div class="craft-btn-wrap" id="craftBtnWrap">
+        <button id="craftBtn" class="icon-btn" aria-label="조합하기">
+            <img src="./assets/mixBtn.webp" alt="조합하기" draggable="false">
+        </button>
+        <button id="resetBtn" class="icon-btn" aria-label="비우기">
+            <img src="./assets/clearBtn.webp" alt="비우기" draggable="false">
+        </button>
+    </div>
+    <!-- <div class="craft-btn-wrap" id="craftBtnWrap">
             <button id="craftBtn" class="craft-btn">조합하기</button>
             <button id="resetBtn" class="reset-btn">비우기</button>
         </div> -->
 
-        <!-- 경고 토스트 -->
-        <div class="toast" id="toastMessage"></div>
+    <!-- 경고 토스트 -->
+    <div class="toast" id="toastMessage"></div>
 
-        <!-- 결과 카드 오버레이 -->
-        <!-- 결과 카드 오버레이 -->
-        <div class="overlay" id="overlay">
-            <div class="result-card">
-                <img class="result-card-frame" src="./assets/resultCard.webp" alt="결과 카드" draggable="false">
+    <!-- 결과 카드 오버레이 -->
+    <!-- 결과 카드 오버레이 -->
+    <div class="overlay" id="overlay">
+        <div class="result-card">
+            <img class="result-card-frame" src="./assets/resultCard.webp" alt="결과 카드" draggable="false">
 
-                <div class="result-medallion">
-                    <img id="resultImage" src="" alt="">
-                </div>
-
-                <h2 id="resultName" class="result-name"></h2>
-                <p id="resultDesc" class="result-desc"></p>
+            <div class="result-medallion">
+                <img id="resultImage" src="" alt="">
             </div>
+
+            <h2 id="resultName" class="result-name"></h2>
+            <p id="resultDesc" class="result-desc"></p>
         </div>
+    </div>
     </div>
 </body>
 
