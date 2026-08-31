@@ -16,6 +16,31 @@
 
 <body>
     <div class="stage">
+        <div class="play-time">
+            플레이 시간 <span id="playTime">00:00:00</span>
+        </div>
+        <div class="jar-wrap">
+            <div class="jar-zone" id="jarZone">
+                <!-- <div class="drop-hint-text">여기에 놓아 담기</div> -->
+                <img src="./assets/jar.webp" alt="가마솥" draggable="false">
+
+                <div class="jar-interior" id="jarInterior"></div>
+                <div class="ripple" id="ripple"></div>
+
+                <div class="tray-wrap">
+                    <div class="tray" id="tray"></div>
+                </div>
+            </div>
+        </div>
+        <!-- 조합 버튼 -->
+        <div class="craft-btn-wrap" id="craftBtnWrap">
+            <button id="craftBtn" class="icon-btn" aria-label="조합하기">
+                <img src="./assets/mixBtn.webp" alt="조합하기" draggable="false">
+            </button>
+            <button id="resetBtn" class="icon-btn" aria-label="비우기">
+                <img src="./assets/clearBtn.webp" alt="비우기" draggable="false">
+            </button>
+        </div>
 
 
         <div class="left"></div>
@@ -30,6 +55,13 @@
             <!-- 도감 버튼 -->
             <div class="book">
                 <img class="book-img" src="./assets/book.webp" alt="도감" draggable="false">
+                <span class="button-tooltip button-tooltip-b">도감</span>
+
+            </div>
+            <!--  도움말 버튼 -->
+            <div class="help">
+                <img src="./assets/help-btn.webp" class="help-img" alt="도움말">
+                <span class="button-tooltip button-tooltip-h">도움말</span>
             </div>
 
 
@@ -147,6 +179,19 @@
         </div>
         <!-- 도감 내부 오버레이 -->
         <div class="book-overlay" id="bookOverlay">
+            <div class="help-overlay" id="helpOverlay">
+                <div class="help-inner">
+
+                    <!-- 도움말 배경 이미지 -->
+                    <img src="./assets/help-page.webp" class="help-page-img" alt="도움말">
+
+                    <!-- 닫기 버튼 -->
+                    <button class="help-close" id="helpClose">
+                        <img src="./assets/book/x-btn.webp" alt="닫기" draggable="false">
+                    </button>
+
+                </div>
+            </div>
             <div class="book-inner" id="bookInner">
                 <!-- <img class="book-inner-img" src="./assets/book/heal.webp" alt="도감 내부" draggable="false"> -->
                 <!-- 도감 내용(재료 목록 등)은 이 안에 나중에 추가하면 됩니다 -->
@@ -154,29 +199,565 @@
                 <!-- 미 발견 이미지 -->
                 <img class="book-inner-img" src="./assets/book/bookPageFrame.webp" alt="도감 내부" draggable="false">
 
+
                 <!-- 페이지마다 바뀌는 콘텐츠 -->
                 <div class="book-pages" id="bookPages">
+
+                    <!-- 물약 ------------------------------------------------------------------------------------------->
+                    <!--레시피 순서는 알파벳 순서로 -->
 
                     <div class="book-page active" data-page="0" data-recipe="herb-mandrake-water">
                         <img class=" page-icon page-silhouette" src="./assets/potion/silhouette/healing-s.webp"
                             alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
                         <!-- 발견 시 함께 나타나는 두 이미지 -->
                         <img class="page-discovered-bg" src="./assets/book/heal.webp" alt="">
                         <img class="page-icon page-discovered-icon" src="./assets/potion/healing.webp" alt="체력 회복 포션">
+                        <div class="page-discovered-text">
+                            <h2>체력 회복 포션</h2>
+
+                            <p>
+                                모든 상처를 즉시 회복시키는 신비한 초록 물약입니다.
+                            </p>
+                        </div>
 
                     </div>
 
-                    <!-- 물약 -->
+
                     <div class="book-page " data-page="1" data-recipe="cactusflower-dragonsClaw-water">
                         <img class=" page-icon page-silhouette" src="./assets/potion/silhouette/strenght-s.webp"
                             alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
                         <!-- 발견 시 함께 나타나는 두 이미지 -->
                         <img class="page-discovered-bg" src="./assets/book/strength.webp" alt="">
                         <img class="page-icon page-discovered-icon" src="./assets/potion/strength.webp" alt="힘의 포션">
+                        <div class="page-discovered-text">
+                            <h2>힘의 포션</h2>
+
+                            <p>
+                                힘이 증가해 가하는 공격이 강해집니다.
+                            </p>
+                        </div>
 
                     </div>
 
-                    <!-- 약 -->
+
+                    <div class="book-page " data-page="2" data-recipe="moonlightFlower-spiritCore-water">
+                        <img class=" page-icon page-silhouette" src="./assets/potion/silhouette/mana-s.webp" alt="미발견">
+                        <!-- 발견 시 함께 나타나는 두 이미지 -->
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <img class="page-discovered-bg" src="./assets/book/mana.webp" alt="">
+                        <img class="page-icon page-discovered-icon" src="./assets/potion/mana.webp" alt="마력 증폭의 포션">
+                        <div class="page-discovered-text">
+                            <h2>마력 증폭의 포션</h2>
+
+                            <p>
+                                일시적으로 마력 회복 속도와 마법의 위력이 대폭 상승합니다.
+                            </p>
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="book-page " data-page="3" data-recipe="blessingOfTheGoddess-phoenixFeather-water">
+                        <img class=" page-icon page-silhouette" src="./assets/potion/silhouette/undead-s.webp"
+                            alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <!-- 발견 시 함께 나타나는 두 이미지 -->
+                        <img class="page-discovered-bg" src="./assets/book/undead.webp" alt="">
+                        <img class="page-icon page-discovered-icon" src="./assets/potion/undead.webp" alt="신성한 불사 포션">
+                        <div class="page-discovered-text">
+                            <h2>신성한 불사 포션</h2>
+
+                            <p>
+                                아무리 큰 상처에도 죽지 않으며 모든 피해를 회복시킵니다.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="book-page " data-page="4" data-recipe="poisonousMushroom-silkyScales-water">
+                        <img class=" page-icon page-silhouette" src="./assets/potion/silhouette/poison-s.webp"
+                            alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <!-- 발견 시 함께 나타나는 두 이미지 -->
+                        <img class="page-discovered-bg" src="./assets/book/poison.webp" alt="">
+                        <img class="page-icon page-discovered-icon" src="./assets/potion/poison.webp" alt="맹독성 부식 포션">
+                        <div class="page-discovered-text">
+                            <h2>맹독성 부식 포션</h2>
+
+                            <p>
+                                마시거나 장비에 바르면 강력한 중독 및 부식을 일으킬 수 있습니다.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="book-page " data-page="5" data-recipe="silverFlower-youngSpiritsPoop-water">
+                        <img class=" page-icon page-silhouette" src="./assets/potion/silhouette/beast-s.webp" alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <!-- 발견 시 함께 나타나는 두 이미지 -->
+                        <img class="page-discovered-bg" src="./assets/book/beast.webp" alt="">
+                        <img class="page-icon page-discovered-icon" src="./assets/potion/beast.webp" alt="환수의 영양 포션">
+                        <div class="page-discovered-text">
+                            <h2>환수의 영양 포션</h2>
+
+                            <p>
+                                마법 생물이나 환수에게 먹이면 소환수의 성장이 빨라집니다.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="book-page " data-page="6" data-recipe="slimeCore-starDust-water">
+                        <img class=" page-icon page-silhouette" src="./assets/potion/silhouette/skin-s.webp" alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <!-- 발견 시 함께 나타나는 두 이미지 -->
+                        <img class="page-discovered-bg" src="./assets/book/skin.webp" alt="">
+                        <img class="page-icon page-discovered-icon" src="./assets/potion/skin.webp" alt="피부활력증가 포션">
+                        <div class="page-discovered-text">
+                            <h2>피부활력증가 포션</h2>
+
+                            <p>
+                                마시면 피부에 생기가 생기고 건강해 보입니다.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="book-page " data-page="7" data-recipe="blessingOfTheGoddess-runeFragment-water">
+                        <img class=" page-icon page-silhouette" src="./assets/potion/silhouette/cleanser-s.webp"
+                            alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <!-- 발견 시 함께 나타나는 두 이미지 -->
+                        <img class="page-discovered-bg" src="./assets/book/cleanser.webp" alt="">
+                        <img class="page-icon page-discovered-icon" src="./assets/potion/cleanser.webp" alt="신성한 정화수">
+                        <div class="page-discovered-text">
+                            <h2>신성한 정화수</h2>
+
+                            <p>
+                                모든 저주와 저주받은 장비를 즉시 정화합니다.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="book-page " data-page="8" data-recipe="mandrake-poisonousMushroom-water">
+                        <img class=" page-icon page-silhouette" src="./assets/potion/silhouette/disarray-s.webp"
+                            alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <!-- 발견 시 함께 나타나는 두 이미지 -->
+                        <img class="page-discovered-bg" src="./assets/book/disarray.webp" alt="">
+                        <img class="page-icon page-discovered-icon" src="./assets/potion/disarray.webp" alt="환각의 마법 포션">
+                        <div class="page-discovered-text">
+                            <h2>환각의 마법 포션</h2>
+
+                            <p>
+                                마신 적에게 심한 환각을 일으켜 서로 공격하게 만드는 혼란 상태에 빠뜨립니다.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="book-page " data-page="9" data-recipe="brightMushroom-coralStarfish-water">
+                        <img class=" page-icon page-silhouette" src="./assets/potion/silhouette/sea-s.webp" alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <!-- 발견 시 함께 나타나는 두 이미지 -->
+                        <img class="page-discovered-bg" src="./assets/book/sea.webp" alt="">
+                        <img class="page-icon page-discovered-icon" src="./assets/potion/sea.webp" alt="바다의 축복 포션">
+                        <div class="page-discovered-text">
+                            <h2>바다의 축복 포션</h2>
+
+                            <p>
+                                마시면 물속에서 숨을 쉴 수 있고 이동 속도가 빨라집니다.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="book-page " data-page="10" data-recipe="fairyDust-sunriseFlower-water">
+                        <img class=" page-icon page-silhouette" src="./assets/potion/silhouette/vision-s.webp"
+                            alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <!-- 발견 시 함께 나타나는 두 이미지 -->
+                        <img class="page-discovered-bg" src="./assets/book/vision.webp" alt="">
+                        <img class="page-icon page-discovered-icon" src="./assets/potion/vision.webp" alt=" 광명의 각성 포션">
+                        <div class="page-discovered-text">
+                            <h2>광명의 각성 포션</h2>
+
+                            <p>
+                                마시면 시야가 매우 밝아져 어두운 곳에서도 낮과 같이 볼 수 있습니다.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="book-page " data-page="11" data-recipe="dragonsClaw-phoenixFeather-water">
+                        <img class=" page-icon page-silhouette" src="./assets/potion/silhouette/fire-s.webp" alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <!-- 발견 시 함께 나타나는 두 이미지 -->
+                        <img class="page-discovered-bg" src="./assets/book/fire.webp" alt="">
+                        <img class="page-icon page-discovered-icon" src="./assets/potion/fire.webp" alt="화염 내성 포션">
+                        <div class="page-discovered-text">
+                            <h2>화염 내성 포션</h2>
+
+                            <p>
+                                일시적으로 화염으로부터 보호받습니다.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="book-page " data-page="12" data-recipe="runeFragment-slimeCore-water">
+                        <img class=" page-icon page-silhouette" src="./assets/potion/silhouette/shockwave-s.webp"
+                            alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <!-- 발견 시 함께 나타나는 두 이미지 -->
+                        <img class="page-discovered-bg" src="./assets/book/shockwave.webp" alt="">
+                        <img class="page-icon page-discovered-icon" src="./assets/potion/shockwave.webp"
+                            alt="충격파 방출 포션">
+                        <div class="page-discovered-text">
+                            <h2>충격파 방출 포션</h2>
+
+                            <p>
+                                바닥에 던지면 넓은 범위로 강력한 마력 충격파를 방출하여 주변 적을 밀쳐냅니다.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="book-page " data-page="13" data-recipe="mandrake-moonlightFlower-water">
+                        <img class=" page-icon page-silhouette" src="./assets/potion/silhouette/wave-s.webp" alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <!-- 발견 시 함께 나타나는 두 이미지 -->
+                        <img class="page-discovered-bg" src="./assets/book/wave.webp" alt="">
+                        <img class="page-icon page-discovered-icon" src="./assets/potion/wave.webp" alt="환각성 음파 포션">
+                        <div class="page-discovered-text">
+                            <h2>환각성 음파 포션</h2>
+
+                            <p>
+                                마신 자의 목소리를 기이한 음파로 바꾸어 주변 적들에게 공포를 줍니다.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="book-page " data-page="14" data-recipe="manaOre-silkyScales-water">
+                        <img class=" page-icon page-silhouette" src="./assets/potion/silhouette/armor-s.webp" alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <!-- 발견 시 함께 나타나는 두 이미지 -->
+                        <img class="page-discovered-bg" src="./assets/book/armor.webp" alt="">
+                        <img class="page-icon page-discovered-icon" src="./assets/potion/armor.webp" alt="수호의 갑옷 포션">
+                        <div class="page-discovered-text">
+                            <h2>수호의 갑옷 포션</h2>
+
+                            <p>
+                                피부가 단단해지며 물리 방어력이 크게 상승합니다.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- 약 ---------------------------------------------------------------------------------------------------->
+                    <div class="book-page" data-page="15" data-recipe="fairyDust-silverFlower-sunriseFlower">
+                        <img class="page-icon page-silhouette" src="./assets/medicament/silhouette/subsidence-s.webp"
+                            alt="미발견">
+
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+
+                        <img class="page-discovered-bg" src="./assets/book/subsidence.webp alt=">
+                        <img class="page-icon page-discovered-icon" src="./assets/medicament/subsidence.webp"
+                            alt="정신 진정 연고">
+                        <div class="page-discovered-text">
+                            <h2>정신 진정 연고</h2>
+
+                            <p>
+                                상처 부위에 바르면 정신적 공포와 수면 장애를 해소해 줍니다.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="book-page" data-page="16" data-recipe="manaOre-mandrake-slimeCore">
+                        <img class="page-icon page-silhouette" src="./assets/medicament/enforce-s" alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <img class="page-discovered-bg" src="./assets/book/enforce.webp alt=">
+                        <img class="page-icon page-discovered-icon" src="./assets/medicament/enforce.webp"
+                            alt="신체 강화 알약">
+                        <div class="page-discovered-text">
+                            <h2>신체 강화 알약</h2>
+
+                            <p>
+                                단단하게 뭉쳐 복용하면 일시적으로 근력과 방어력이 대폭 상승합니다.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="book-page" data-page="17" data-recipe="coralStarfish-runeFragment-silkyScales">
+                        <img class="page-icon page-silhouette" src="./assets/medicament/silhouette/dispoison-s.webp"
+                            alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <img class="page-discovered-bg" src="./assets/book/dispoison.webp alt=">
+                        <img class="page-icon page-discovered-icon" src="./assets/medicament/dispoison.webp"
+                            alt="해독 가루 환">
+                        <div class="page-discovered-text">
+                            <h2>해독 가루 환</h2>
+
+                            <p>
+                                체내에 침투한 치명적인 독을 즉시 흡수하여 배출시킵니다.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="book-page" data-page="18" data-recipe="manaOre-spiritCore-starDust">
+                        <img class="page-icon page-silhouette" src="./assets/medicament/silhouette/manaSens-s.webp"
+                            alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <img class="page-discovered-bg" src="./assets/book/manaSens.webp alt=">
+                        <img class="page-icon page-discovered-icon" src="./assets/medicament/manaSens.webp"
+                            alt="마법 감응 분말">
+                        <div class="page-discovered-text">
+                            <h2>마법 감응 분말</h2>
+
+                            <p>
+                                마력에 대한 감응력이 증가하고 마법의 위력이 강해집니다.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="book-page" data-page="19" data-recipe="herb-sunriseFlower-youngSpiritsPoop">
+                        <img class="page-icon page-silhouette" src="./assets/medicament/silhouette/growth-s.webp"
+                            alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <img class="page-discovered-bg" src="./assets/book/growth.webp alt=">
+                        <img class="page-icon page-discovered-icon" src="./assets/medicament/growth.webp"
+                            alt="초기 성장의 비약">
+                        <div class="page-discovered-text">
+                            <h2>초기 성장의 비약</h2>
+
+                            <p>
+                                식물이나 작은 정령에게 뿌리면 빠른 성장을 촉진하는 유기농 영양제입니다.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="book-page" data-page="20" data-recipe="blessingOfTheGoddess-manaOre-phoenixFeather">
+                        <img class="page-icon page-silhouette" src="./assets/medicament/silhouette/phoenix-s.webp"
+                            alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <img class="page-discovered-bg" src="./assets/book/phoenix.webp alt=">
+                        <img class="page-icon page-discovered-icon" src="./assets/medicament/phoenix.webp"
+                            alt="불사조의 알약">
+
+                        <div class="page-discovered-text">
+                            <h2>불사조의 알약</h2>
+
+                            <p>
+                                굳혀 만든 결정 알약으로, 복용 시 천천히 힘이 차오릅니다.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="book-page" data-page="21" data-recipe="dragonsClaw-poisonousMushroom-silkyScales">
+                        <img class="page-icon page-silhouette" src="./assets/medicament/silhouette/paralysis-s.webp"
+                            alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <img class="page-discovered-bg" src="./assets/book/paralysis.webp alt=">
+                        <img class="page-icon page-discovered-icon" src="./assets/medicament/paralysis.webp"
+                            alt="마비 독 가루">
+                        <div class="page-discovered-text">
+                            <h2>마비 독 가루</h2>
+
+                            <p>
+                                무기 표면에 바르거나 던지면 적을 일시적으로 완전 마비시킵니다.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="book-page" data-page="22" data-recipe="cactusflower-fairyDust-moonlightFlower">
+                        <img class="page-icon page-silhouette" src="./assets/medicament/silhouette/absorption-s.webp"
+                            alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <img class="page-discovered-bg" src="./assets/book/absorption.webp alt=">
+                        <img class="page-icon page-discovered-icon" src="./assets/medicament/absorption.webp"
+                            alt="마력 흡수 연고">
+                        <div class="page-discovered-text">
+                            <h2>마력 흡수 연고</h2>
+
+                            <p>
+                                피부에 바르면 주변 마력으로 회복을 촉진합니다.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="book-page" data-page="23" data-recipe="brightMushroom-runeFragment-starDust">
+                        <img class="page-icon page-silhouette" src="./assets/medicament/silhouette/nightVision-s.webp"
+                            alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <img class="page-discovered-bg" src="./assets/book/nightVision.webp alt=">
+                        <img class="page-icon page-discovered-icon" src="./assets/medicament/nightVision.webp"
+                            alt="야간 시야 분말">
+                        <div class="page-discovered-text">
+                            <h2>야간 시야 분말</h2>
+
+                            <p>
+                                눈 주위에 바르면 칠흑 같은 어둠 속에서도 완벽한 시야를 확보합니다.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="book-page" data-page="24" data-recipe="herb-mandrake-slimeCore">
+                        <img class="page-icon page-silhouette" src="./assets/medicament/silhouette/heart-s.webp"
+                            alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <img class="page-discovered-bg" src="./assets/book/heart.webp alt=">
+                        <img class="page-icon page-discovered-icon" src="./assets/medicament/heart.webp" alt="생명 각성 젤리">
+                        <div class="page-discovered-text">
+                            <h2>생명 각성 젤리</h2>
+
+                            <p>
+                                쫀득하게 응축한 고체 약으로, 섭취 시 최대 체력의 한계를 일시적으로 늘려줍니다.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="book-page" data-page="25" data-recipe="coralStarfish-herb-starDust">
+                        <img class="page-icon page-silhouette" src="./assets/medicament/silhouette/emergency-s.webp"
+                            alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <img class="page-discovered-bg" src="./assets/book/emergency.webp alt=">
+                        <img class="page-icon page-discovered-icon" src="./assets/medicament/emergency.webp"
+                            alt="별빛 응급 연고">
+                        <div class="page-discovered-text">
+                            <h2>별빛 응급 연고</h2>
+
+                            <p>
+                                상처에 바르면 부위가 별빛으로 치유되며 부상을 즉시 지혈합니다.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="book-page" data-page="26"
+                        data-recipe="blessingOfTheGoddess-cactusflower-youngSpiritsPoop">
+                        <img class="page-icon page-silhouette" src="./assets/medicament/silhouette/holy-s.webp"
+                            alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <img class="page-discovered-bg" src="./assets/book/holy.webp alt=">
+                        <img class="page-icon page-discovered-icon" src="./assets/medicament/holy.webp" alt="성스러운 자양환">
+                        <div class="page-discovered-text">
+                            <h2>성스러운 자양환</h2>
+
+                            <p>
+                                먹기 거북하지만 복용 시 허기짐이 즉시 채워지고 힘이 소폭 증가합니다.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="book-page" data-page="27" data-recipe="brightMushroom-poisonousMushroom-spiritCore">
+                        <img class="page-icon page-silhouette" src="./assets/medicament/silhouette/nerves-s.webp"
+                            alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <img class="page-discovered-bg" src="./assets/book/nerves.webp alt=">
+                        <img class="page-icon page-discovered-icon" src="./assets/medicament/nerves.webp"
+                            alt="신경 마비 가루">
+                        <div class="page-discovered-text">
+                            <h2>신경 마비 가루</h2>
+
+                            <p>
+                                적에게 뿌리면 적의 마력 회복을 방해하고 움직임을 느리게 만듭니다.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="book-page" data-page="28" data-recipe="fairyDust-silverFlower-spiritCore">
+                        <img class="page-icon page-silhouette" src="./assets/medicament/silhouette/sprit-s.webp"
+                            alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <img class="page-discovered-bg" src="./assets/book/sprit.webp alt=">
+                        <img class="page-icon page-discovered-icon" src="./assets/medicament/sprit.webp" alt="영혼 포착 젤리">
+                        <div class="page-discovered-text">
+                            <h2>영혼 포착 젤리</h2>
+
+                            <p>
+                                굳혀 만든 젤리 형태의 약으로, 보이지 않는 영체를 볼수 있게 됩니다.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="book-page" data-page="29" data-recipe="cactusflower-coralStarfish-slimeCore">
+                        <img class="page-icon page-silhouette" src="./assets/medicament/silhouette/heat-s.webp"
+                            alt="미발견">
+                        <p class="page-unknown-text">
+                            ..........
+                        </p>
+                        <img class="page-discovered-bg" src="./assets/book/heat.webp alt=">
+                        <img class="page-icon page-discovered-icon" src="./assets/medicament/heat.webp" alt="열기 차단 크림">
+                        <div class="page-discovered-text">
+                            <h2>열기 차단 크림</h2>
+
+                            <p>
+                                몸 전체에 바르면 화염 및 용암 지대에서 받는 환경 피해를 일정 시간 무효화합니다.
+                            </p>
+                        </div>
+
+                    </div>
 
                     <!-- 레시피 개수만큼 반복 -->
                 </div>
@@ -190,36 +771,20 @@
                 </button>
 
                 <!--  도감 초기화 버튼 -->
-                <button class="book-reset-btn" id="bookResetBtn" aria-label="도감 초기화">
-                    초기화
-                </button>
+                <div class="book-bottom-controls">
+                    <button id="bookCloseBtn" class="icon-btn book-icon-btn" aria-label="도감 닫기">
+                        <img src="./assets/book/close-btn.webp" alt="닫기" draggable="false">
+                    </button>
+                    <button id="bookResetBtn" class="icon-btn book-icon-btn" aria-label="도감 초기화">
+                        <img src="./assets/book/reset-btn.webp" alt="초기화" draggable="false">
+                    </button>
+                </div>
 
             </div>
         </div>
     </div>
     <!-- 재료 설명 쪽지 -->
-    <div class="jar-wrap">
-        <div class="jar-zone" id="jarZone">
-            <!-- <div class="drop-hint-text">여기에 놓아 담기</div> -->
-            <img src="./assets/jar.webp" alt="가마솥" draggable="false">
 
-            <div class="jar-interior" id="jarInterior"></div>
-            <div class="ripple" id="ripple"></div>
-
-            <div class="tray-wrap">
-                <div class="tray" id="tray"></div>
-            </div>
-        </div>
-    </div>
-    <!-- 조합 버튼 -->
-    <div class="craft-btn-wrap" id="craftBtnWrap">
-        <button id="craftBtn" class="icon-btn" aria-label="조합하기">
-            <img src="./assets/mixBtn.webp" alt="조합하기" draggable="false">
-        </button>
-        <button id="resetBtn" class="icon-btn" aria-label="비우기">
-            <img src="./assets/clearBtn.webp" alt="비우기" draggable="false">
-        </button>
-    </div>
     <!-- <div class="craft-btn-wrap" id="craftBtnWrap">
             <button id="craftBtn" class="craft-btn">조합하기</button>
             <button id="resetBtn" class="reset-btn">비우기</button>

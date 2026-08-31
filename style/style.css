@@ -4,6 +4,22 @@
   box-sizing: border-box;
 }
 
+.book,
+.book * {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+}
+
+.right,
+.right * {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+}
+
 html,
 body {
   overscroll-behavior: none;
@@ -53,26 +69,41 @@ body {
   flex: 0 0 auto;
   height: 100%;
   aspect-ratio: 368 / 690;
-  /* desk.webp 원본 비율 그대로 유지 */
+
   background-image: url('../assets/desk.webp');
   background-size: 100% 100%;
+
   position: relative;
   z-index: 2;
   margin-left: -14px;
-  /* 이 값을 조절해서 왼쪽으로 이동(겹치는 정도 조절) */
 
-  /* 재료 그리드를 배치할 기준점 */
   display: flex;
   justify-content: center;
+
+  /* 드래그/선택 방지 */
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+
+  touch-action: none;
 }
 
+.right img {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+}
 
 /* 앞으로 추가할 이미지 (img 태그 방식) */
 .jar-wrap {
   position: absolute;
   bottom: 0px;
   /* 위치 조절 */
-  left: 36%;
+  left: 31.1%;
   transform: translateX(-50%);
   z-index: 3;
   user-select: none;
@@ -100,7 +131,6 @@ body {
   z-index: 9999;
   image-rendering: pixelated;
 }
-
 
 
 
@@ -179,4 +209,22 @@ body {
   /* iOS 길게 누르기 메뉴 차단 */
   -webkit-user-select: none;
   user-select: none;
+}
+
+.play-time {
+  position: absolute;
+
+  left: 20px;
+  bottom: 20px;
+
+  z-index: 100;
+
+  padding: 8px 12px;
+
+  color: white;
+  font-size: 24px;
+
+  border-radius: 6px;
+
+  pointer-events: none;
 }

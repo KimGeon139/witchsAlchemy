@@ -50,7 +50,7 @@ registerRecipe(
     //물 + 허브 + 발광버섯
     {
         name: "체력 회복 포션",
-        desc: "모든 상처를 즉시 회복시키는 신비한 붉은 물약입니다.",
+        desc: "모든 상처를 즉시 회복시키는 신비한 초록 물약입니다.",
         image: "./assets/potion/healing.webp"
     },
 
@@ -85,7 +85,7 @@ registerRecipe(
     //물 + 독버섯 + 비단뱀의 비늘
     {
         name: "맹독성 부식 포션",
-        desc: "마시거나 장비에 바르면 강력한 중독 및 산성 효과를 부여합니다.",
+        desc: "마시거나 장비에 바르면 강력한 중독 및 부식을 일으킬 수 있습니다.",
         image: "./assets/ingredient/starDust.webp"
     },
 
@@ -250,7 +250,7 @@ registerRecipe(
         desc: "피부에 바르면 주변 마력으로 회복을 촉진합니다.",
         image: "./assets/ingredient/herb.webp"
     },
-    ["herb", "herb", "herb"],
+    ["brightMushroom", "runeFragment", "starDust"],
     // 발광버섯 + 별똥별 조각 + 룬 조각
     {
         name: "야간 시야 분말",
@@ -304,7 +304,7 @@ registerRecipe(
 const UNKNOWN_RECIPE = {
     name: "알 수 없는 잿더미",
     desc: "재료의 비율이 맞지 않아 검은 연기와 함께 실패했습니다.",
-    image: "./assets/ingredient/slimeCore.webp"
+    image: "./assets/dust.webp"
 };
 
 // =========================
@@ -449,8 +449,9 @@ ingredients.forEach((ingredient) => {
     // 드래그 중
     // -------------------------
 
-    ingredient.addEventListener('pointermove', (e) => {
+    document.addEventListener('pointermove', (e) => {
         if (!isDragging || !dragGhost) return;
+
         moveGhost(e.clientX, e.clientY);
     });
 
@@ -458,16 +459,18 @@ ingredients.forEach((ingredient) => {
     // 드롭
     // -------------------------
 
-    ingredient.addEventListener('pointerup', (e) => {
+    document.addEventListener('pointerup', (e) => {
         if (!isDragging) return;
+
         finishDrag(e);
     });
-
     // -------------------------
     // 드래그 취소
     // -------------------------
 
-    ingredient.addEventListener('pointercancel', () => {
+    document.addEventListener('pointercancel', () => {
+        if (!isDragging) return;
+
         cancelDrag();
     });
 
@@ -1081,6 +1084,13 @@ function recordDiscovery(recipeKey) {
     }
 }
 
+const bookCloseBtn = document.getElementById('bookCloseBtn');
+
+if (bookCloseBtn) {
+    bookCloseBtn.addEventListener('click', () => {
+        bookOverlay.classList.remove('show');
+    });
+}
 // =========================
 // 도감 초기화 (개발/테스트용)
 // =========================
@@ -1099,5 +1109,51 @@ if (bookResetBtn) {
         document.querySelectorAll('.book-page.discovered').forEach((page) => {
             page.classList.remove('discovered');
         });
+    });
+}
+
+
+const helpButton = document.querySelector('.help');
+const helpOverlay = document.getElementById('helpOverlay');
+const helpClose = document.getElementById('helpClose');
+
+helpButton.addEventListener('click', () => {
+    helpOverlay.classList.add('show');
+});
+
+helpClose.addEventListener('click', () => {
+    helpOverlay.classList.remove('show');
+});
+
+
+// =========================
+// 플레이 시간
+// =========================
+
+const playTime = document.getElementById("playTime");
+
+let startTime = Date.now();
+
+function updatePlayTime() {
+    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+
+    const hours = Math.floor(elapsed / 3600);
+    const minutes = Math.floor((elapsed % 3600) / 60);
+    const seconds = elapsed % 60;
+
+    playTime.textContent =
+        String(hours).padStart(2, "0") + ":" +
+        String(minutes).padStart(2, "0") + ":" +
+        String(seconds).padStart(2, "0");
+}
+
+setInterval(updatePlayTime, 1000);
+
+
+const memo = document.querySelector('.memo');
+
+if (memo) {
+    memo.addEventListener('dragstart', (e) => {
+        e.preventDefault();
     });
 }
