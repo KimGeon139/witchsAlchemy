@@ -86,7 +86,7 @@ registerRecipe(
     {
         name: "맹독성 부식 포션",
         desc: "마시거나 장비에 바르면 강력한 중독 및 부식을 일으킬 수 있습니다.",
-        image: "./assets/ingredient/starDust.webp"
+        image: "./assets/potion/poison.webp"
     },
 
 
@@ -95,7 +95,7 @@ registerRecipe(
     {
         name: "환수의 영양 포션",
         desc: "마법 생물이나 환수에게 먹이면 소환수의 성장이 빨라집니다.",
-        image: "./assets/ingredient/starDust.webp"
+        image: "./assets/potion/beast.webp"
     },
 
 
@@ -104,7 +104,7 @@ registerRecipe(
     {
         name: "피부활력증가 포션",
         desc: "마시면 피부에 생기가 생기고 건강해 보입니다.",
-        image: "./assets/ingredient/starDust.webp"
+        image: "./assets/potion/skin.webp"
     },
 
 
@@ -113,7 +113,7 @@ registerRecipe(
     {
         name: "신성한 정화수",
         desc: "모든 저주와 저주받은 장비를 즉시 정화합니다.",
-        image: "./assets/ingredient/water.webp"
+        image: "./assets/potion/cleanser.webp"
     },
 
 
@@ -122,7 +122,7 @@ registerRecipe(
     {
         name: "환각의 마법 포션",
         desc: "마신 적에게 심한 환각을 일으켜 서로 공격하게 만드는 혼란 상태에 빠뜨립니다.",
-        image: "./assets/ingredient/starDust.webp"
+        image: "./assets/potion/disarray.webp"
     },
 
 
@@ -131,7 +131,7 @@ registerRecipe(
     {
         name: "바다의 축복 포션",
         desc: "마시면 물속에서 숨을 쉴 수 있고 이동 속도가 빨라집니다.",
-        image: "./assets/ingredient/starDust.webp"
+        image: "./assets/potion/sea.webp"
     },
 
 
@@ -140,7 +140,7 @@ registerRecipe(
     {
         name: "광명의 각성 포션",
         desc: "마시면 시야가 매우 밝아져 어두운 곳에서도 낮과 같이 볼 수 있습니다.",
-        image: "./assets/ingredient/starDust.webp"
+        image: "./assets/potion/vision.webp"
     },
 
 
