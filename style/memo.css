@@ -4,7 +4,8 @@
   left: 18%;
   width: 70%;
   z-index: 5;
-  perspective: 800px;      /* 3D 깊이감을 위한 원근감 */
+  perspective: 800px;
+  /* 3D 깊이감을 위한 원근감 */
 }
 
 .ingredient-note {
@@ -43,6 +44,11 @@
 }
 
 @keyframes note-flip {
-  0%   { transform: rotatex(-8deg) rotate(1deg); }
-  100% { transform: rotatex(0deg) rotate(0deg); }
+  0% {
+    transform: rotatex(-8deg) rotate(1deg);
+  }
+
+  100% {
+    transform: rotatex(0deg) rotate(0deg);
+  }
 }

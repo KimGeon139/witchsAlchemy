@@ -72,7 +72,7 @@ body {
   position: absolute;
   bottom: 0px;
   /* 위치 조절 */
-  left: 31.1%;
+  left: 36%;
   transform: translateX(-50%);
   z-index: 3;
   user-select: none;
@@ -102,13 +102,7 @@ body {
 }
 
 
-.jar-wrap {
-  position: absolute;
-  bottom: 0;
-  left: 31.1%;
-  transform: translateX(-50%);
-  z-index: 3;
-}
+
 
 .jar-zone {
   position: relative;

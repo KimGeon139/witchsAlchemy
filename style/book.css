@@ -63,9 +63,12 @@
   position: absolute;
   inset: 8%;
   width: 100%;
-  height: auto;
+  height: 100%;
   /* 프레임 안쪽 여백 - 프레임 이미지 보면서 조절 */
   overflow: hidden;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .book-page {
@@ -75,14 +78,17 @@
   pointer-events: none;
   transition: opacity 0.25s ease;
   width: 100%;
-
 }
 
 .book-page.active {
   opacity: 1;
+  width: 100%;
+  /* transform: translate(-50%, -50%); */
+}
+
+/* 도감이 실제로 열려 있을 때만 페이지가 클릭을 받도록 */
+.book-overlay.show .book-page.active {
   pointer-events: auto;
-  width:
-    /* transform: translate(-50%, -50%); */
 }
 
 /* ===== 아이콘 (실루엣 / 발견 아이템 공용 위치) ===== */
@@ -90,8 +96,8 @@
   position: absolute;
   width: 35%;
   height: 35%;
-  left: 48.1%;
-  top: 16%;
+  left: 55.8%;
+  top: 19.7%;
   object-fit: contain;
   user-select: none;
   -webkit-user-drag: none;
@@ -109,11 +115,10 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain;
   user-select: none;
   -webkit-user-drag: none;
   pointer-events: none;
-  /* display: none; */
+  display: none;
   justify-content: center;
 }
 
